@@ -162,7 +162,57 @@ const loginUser = (req, res) => {
   });
 };
 
+// Get Logged In User Profile
+const getProfile = (req, res) => {
+  User.getUserById(req.user.id, (err, result) => {
+    if (err) {
+      return res.status(500).json({
+        message: err.message,
+      });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json(result[0]);
+  });
+};
+
+// Update User Profile
+const updateProfile = (req, res) => {
+  const { full_name, phone, city, bio } = req.body;
+
+  const profile_image = req.file
+    ? req.file.filename
+    : null;
+
+  User.updateUserProfile(
+    req.user.id,
+    full_name,
+    phone,
+    city,
+    bio,
+    profile_image,
+    (err) => {
+      if (err) {
+        return res.status(500).json({
+          message: err.message,
+        });
+      }
+
+      res.json({
+        message: "Profile updated successfully",
+      });
+    }
+  );
+};
+
 module.exports = {
   registerUser,
   loginUser,
+  getProfile,
+  updateProfile,
 };

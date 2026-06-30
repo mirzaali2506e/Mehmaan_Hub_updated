@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MyProperties from "./pages/MyProperties";
 import EditProperty from "./pages/EditProperty";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -61,6 +62,16 @@ function App() {
     </ProtectedRoute>
   }
 />
+
+<Route
+  path="/profile"
+  element={
+    <ProtectedRoute>
+      <Profile />
+    </ProtectedRoute>
+  }
+/>
+
       </Routes>
     </BrowserRouter>
 

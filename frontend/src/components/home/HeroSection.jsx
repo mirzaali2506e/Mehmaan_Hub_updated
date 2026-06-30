@@ -1,4 +1,5 @@
 import heroImage from "../../assets/hero-property.png";
+import { Link } from "react-router-dom";
 
 function HeroSection({
   city,
@@ -69,9 +70,9 @@ function HeroSection({
                 className="w-full md:w-auto bg-rose-500 hover:bg-rose-600 active:scale-[0.98] text-white px-8 h-12 md:h-14 rounded-xl md:rounded-full font-bold text-sm tracking-wide shadow-lg shadow-rose-500/20 transition-all duration-200 shrink-0"
               >
                 Search Stays
-              </button>
+              </button>      
             </div>
-
+            
             {/* Horizontal Static Aesthetic Categories */}
             <div className="hidden sm:flex items-center gap-4 mt-8 text-xs font-semibold text-white/90">
               <span className="text-white/50">Popular options:</span>

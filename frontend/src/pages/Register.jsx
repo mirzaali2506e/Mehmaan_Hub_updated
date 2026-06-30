@@ -111,6 +111,7 @@ function Register() {
   const [full_name, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("tenant");
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -120,6 +121,7 @@ function Register() {
         full_name,
         email,
         password,
+        role,
       });
 
       alert(response.data.message);
@@ -198,6 +200,58 @@ function Register() {
                 Email Address
               </label>
             </div>
+
+            {/* Input Floating Structure Group 2.5: Role Selection */}
+            <div>
+  <label className="block text-sm font-semibold text-neutral-700 mb-3">
+    Choose your role
+  </label>
+
+  <div className="grid grid-cols-2 gap-4">
+
+    <button
+      type="button"
+      onClick={() => setRole("tenant")}
+      className={`rounded-2xl border-2 p-4 text-left transition-all ${
+        role === "tenant"
+          ? "border-rose-500 bg-rose-50"
+          : "border-neutral-200 hover:border-neutral-400"
+      }`}
+    >
+      <div className="text-3xl mb-2">🔑</div>
+
+      <h3 className="font-bold">
+        Tenant
+      </h3>
+
+      <p className="text-xs text-neutral-500 mt-1">
+        Find rooms, apartments and hostels.
+      </p>
+    </button>
+
+    <button
+      type="button"
+      onClick={() => setRole("owner")}
+      className={`rounded-2xl border-2 p-4 text-left transition-all ${
+        role === "owner"
+          ? "border-rose-500 bg-rose-50"
+          : "border-neutral-200 hover:border-neutral-400"
+      }`}
+    >
+      <div className="text-3xl mb-2">🏠</div>
+
+      <h3 className="font-bold">
+        Property Owner
+      </h3>
+
+      <p className="text-xs text-neutral-500 mt-1">
+        List your property and earn money.
+      </p>
+    </button>
+
+  </div>
+</div>
+
 
             {/* Input Floating Structure Group 3: Password Spec */}
             <div className="relative group">

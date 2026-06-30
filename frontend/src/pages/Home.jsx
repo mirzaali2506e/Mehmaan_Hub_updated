@@ -242,6 +242,7 @@ function Home() {
       console.error(error);
     }
   };
+  
 
   const filteredProperties = properties.filter((property) =>
     property.city.toLowerCase().includes(city.toLowerCase())

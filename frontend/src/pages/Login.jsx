@@ -82,12 +82,14 @@
 
 // export default Login;
 
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import api from "../services/api";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -98,10 +100,20 @@ function Login() {
         password,
       });
 
-      localStorage.setItem("token", response.data.token);
+     localStorage.setItem("token", response.data.token);
 
-      alert("Login Successful");
-      console.log(response.data);
+localStorage.setItem(
+  "user",
+  JSON.stringify(response.data.user)
+);
+
+alert("Login Successful");
+
+if (response.data.user.role === "owner") {
+  navigate("/dashboard");
+} else {
+  navigate("/");
+}
 
     } catch (error) {
       alert(

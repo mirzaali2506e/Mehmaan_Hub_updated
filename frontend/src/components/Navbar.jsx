@@ -16,12 +16,28 @@
 // }
 
 // export default Navbar;
-
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 function Navbar() {
+
   const [isOpen, setIsOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+const token = localStorage.getItem("token");
+
+const user = JSON.parse(
+  localStorage.getItem("user")
+);
+
+const logout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+
+  navigate("/");
+};
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-white border-b border-neutral-100 shadow-[0_2px_12px_rgba(0,0,0,0.03)] transition-all duration-200">
@@ -43,7 +59,7 @@ function Navbar() {
         </div>
 
         {/* Desktop Navigation Links & Action Controls (Airbnb/Booking.com Style) */}
-        <div className="hidden md:flex items-center gap-8">
+        {/* <div className="hidden md:flex items-center gap-8">
           <div className="flex items-center gap-6">
             <Link
               to="/"
@@ -66,7 +82,77 @@ function Navbar() {
           >
             Create Account
           </Link>
-        </div>
+        </div> */}
+
+        <div className="hidden md:flex items-center gap-5">
+
+  <Link
+    to="/"
+    className="text-sm font-medium text-neutral-700 hover:text-rose-500"
+  >
+    Home
+  </Link>
+
+  {token ? (
+    <>
+      {user?.role === "owner" && (
+        <>
+          <Link
+            to="/dashboard"
+            className="text-sm font-medium text-neutral-700 hover:text-rose-500"
+          >
+            Dashboard
+          </Link>
+
+          <Link
+            to="/my-properties"
+            className="text-sm font-medium text-neutral-700 hover:text-rose-500"
+          >
+            My Properties
+          </Link>
+
+          <Link
+            to="/add-property"
+            className="text-sm font-medium text-neutral-700 hover:text-rose-500"
+          >
+            Add Property
+          </Link>
+        </>
+      )}
+
+      <Link
+        to="/profile"
+        className="text-sm font-medium text-neutral-700 hover:text-rose-500"
+      >
+        Profile
+      </Link>
+
+      <button
+        onClick={logout}
+        className="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-full text-sm font-semibold transition"
+      >
+        Logout
+      </button>
+    </>
+  ) : (
+    <>
+      <Link
+        to="/login"
+        className="text-sm font-medium text-neutral-700 hover:text-rose-500"
+      >
+        Sign In
+      </Link>
+
+      <Link
+        to="/register"
+        className="bg-rose-500 hover:bg-rose-600 text-white px-5 py-2 rounded-full text-sm font-semibold transition"
+      >
+        Create Account
+      </Link>
+    </>
+  )}
+
+</div>
 
         {/* Mobile Hamburger Button Trigger */}
         <div className="flex md:hidden">
