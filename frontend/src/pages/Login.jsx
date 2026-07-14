@@ -85,6 +85,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import api from "../services/api";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -129,11 +130,25 @@ if (response.data.user.role === "owner") {
       <div className="w-full lg:w-[45%] xl:w-[40%] bg-white p-8 sm:p-12 md:p-16 flex flex-col justify-between relative z-10 shadow-[4px_0_24px_rgba(0,0,0,0.01)]">
         
         {/* Top Minimal Brand Identity Anchor */}
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-rose-500 to-amber-500 flex items-center justify-center shadow-md shadow-rose-500/20">
             <span className="text-white text-base font-black tracking-tighter">◇</span>
           </div>
           <span className="text-sm font-black tracking-tight text-neutral-900 uppercase">Hearth & Stay</span>
+        </div> */}
+            {/* Modern Brand Logo Area (Zillow/Airbnb Infused Minimalist Style) */}
+        <div className="flex items-center shrink-0">
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-xl sm:text-2xl font-black tracking-tight text-neutral-900 group"
+          >
+            <div className="w-8 h-8 sm:w-9 sm:h-9 bg-rose-500 rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:bg-rose-600 transition-colors duration-200">
+              M
+            </div>
+            <span className="tracking-tighter">
+              Mehmaan<span className="text-rose-500 font-semibold">Hub</span>
+            </span>
+          </Link>
         </div>
 
         {/* Central Core Input Submission Interface */}

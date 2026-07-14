@@ -10,6 +10,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import MyProperties from "./pages/MyProperties";
 import EditProperty from "./pages/EditProperty";
 import Profile from "./pages/Profile";
+import MyBookings from "./pages/MyBookings";
+import OwnerBookings from "./pages/OwnerBookings";
 
 function App() {
   return (
@@ -70,9 +72,25 @@ function App() {
       <Profile />
     </ProtectedRoute>
   }
+/> 
+<Route
+  path="/my-bookings"
+  element={
+    <ProtectedRoute>
+      <MyBookings />
+    </ProtectedRoute>
+  }
 />
 
-      </Routes>
+<Route
+  path="/owner-bookings"
+  element={
+    <ProtectedRoute>
+      <OwnerBookings />
+    </ProtectedRoute>
+  }
+/>
+  </Routes>
     </BrowserRouter>
 
     

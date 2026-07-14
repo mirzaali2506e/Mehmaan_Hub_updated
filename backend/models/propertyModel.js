@@ -37,35 +37,45 @@ const getAllProperties = (callback) => {
 
   db.query(sql, callback);
 };
+const getPropertyCount = (ownerId, callback) => {
+  const sql = `
+    SELECT COUNT(*) AS total
+    FROM properties
+    WHERE owner_id = ?
+  `;
+
+  db.query(sql, [ownerId], callback);
+};
 
 module.exports = {
   createProperty,
   getAllProperties,
+  getPropertyCount,
   getPropertyById: (id, callback) => {
     const sql = `
-      SELECT 
-        p.*,
-        u.full_name AS owner_name,
-        u.email AS owner_email
-      FROM properties p
-      JOIN users u ON p.owner_id = u.id
-      WHERE p.id = ?
+    SELECT 
+    p.*,
+    u.full_name AS owner_name,
+    u.email AS owner_email
+    FROM properties p
+    JOIN users u ON p.owner_id = u.id
+    WHERE p.id = ?
     `;
-
+    
     db.query(sql, [id], callback);
   },
   searchPropertiesByCity: (city, callback) => {
-  const sql = `
+    const sql = `
     SELECT 
-      p.*,
-      u.full_name AS owner_name
+    p.*,
+    u.full_name AS owner_name
     FROM properties p
     JOIN users u ON p.owner_id = u.id
     WHERE p.city = ?
     ORDER BY p.created_at DESC
-  `;
-
-  db.query(sql, [city], callback);
+    `;
+    
+    db.query(sql, [city], callback);
 },
 getPropertyOwner: (propertyId, callback) => {
   const sql = "SELECT owner_id FROM properties WHERE id = ?";
@@ -89,17 +99,17 @@ updateProperty: (
   callback
 ) => {
   const sql = `
-    UPDATE properties
-    SET
-      title = ?,
-      description = ?,
-      city = ?,
-      address = ?,
-      rent = ?,
-      property_type = ?
-    WHERE id = ?
+  UPDATE properties
+  SET
+  title = ?,
+  description = ?,
+  city = ?,
+  address = ?,
+  rent = ?,
+  property_type = ?
+  WHERE id = ?
   `;
-
+  
   db.query(
     sql,
     [
@@ -116,12 +126,15 @@ updateProperty: (
 },
 getPropertiesByOwner :(ownerId, callback) => {
   const sql = `
-    SELECT *
-    FROM properties
-    WHERE owner_id = ?
-    ORDER BY created_at DESC
+  SELECT *
+  FROM properties
+  WHERE owner_id = ?
+  ORDER BY created_at DESC
   `;
-
+  
+ 
   db.query(sql, [ownerId], callback);
 }
+
+
 };

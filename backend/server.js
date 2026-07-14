@@ -36,6 +36,7 @@ dotenv.config();
 const db = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const propertyRoutes = require("./routes/propertyRoutes");
+const bookingRoutes = require("./routes/bookingRoutes");
 
 const app = express();
 
@@ -54,6 +55,7 @@ app.use("/api/properties", propertyRoutes);
 app.get("/", (req, res) => {
   res.send("Mehmaan Hub API Running...");
 });
+app.use("/api/bookings", bookingRoutes);
 
 const PORT = process.env.PORT || 5000;
 

@@ -1,3 +1,4 @@
+const Booking = require("../models/bookingModel");
 const Property = require("../models/propertyModel");
 
 const addProperty = (req, res) => {
@@ -205,6 +206,44 @@ const getMyProperties = (req, res) => {
     res.status(200).json(results);
   });
 };
+const getDashboardStats = (req, res) => {
+  const ownerId = req.user.id;
+
+  Property.getPropertyCount(ownerId, (err, propertyResult) => {
+    if (err) {
+      return res.status(500).json({
+        message: err.message,
+      });
+    }
+
+    Booking.getBookingStatsByOwner(ownerId, (err, bookingResult) => {
+      if (err) {
+        return res.status(500).json({
+          message: err.message,
+        });
+      }
+
+      res.json({
+        totalProperties: propertyResult[0].total,
+
+        totalBookings:
+          bookingResult[0].totalBookings || 0,
+
+        pendingBookings:
+          bookingResult[0].pendingBookings || 0,
+
+        acceptedBookings:
+          bookingResult[0].acceptedBookings || 0,
+
+        rejectedBookings:
+          bookingResult[0].rejectedBookings || 0,
+
+        totalViews: 0,
+        earnings: 0,
+      });
+    });
+  });
+};
 
 module.exports = {
   addProperty,
@@ -214,4 +253,5 @@ module.exports = {
   searchProperties,
   removeProperty,
   editProperty,
+  getDashboardStats,
 };

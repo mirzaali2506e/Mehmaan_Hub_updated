@@ -105,6 +105,12 @@ function PropertyDetails() {
   const { id } = useParams();
 
   const [property, setProperty] = useState(null);
+  const [bookingData, setBookingData] = useState({
+    check_in: "",
+    check_out: "",
+    guests: 1,
+  });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchProperty();
@@ -118,6 +124,42 @@ function PropertyDetails() {
       console.error(error);
     }
   };
+
+  const handleBooking = async () => {
+  try {
+    setLoading(true);
+
+    const token = localStorage.getItem("token");
+
+    await api.post(
+      "/bookings",
+      {
+        property_id: property.id,
+        check_in: bookingData.check_in,
+        check_out: bookingData.check_out,
+        guests: bookingData.guests,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    alert("Booking Request Sent Successfully 🎉");
+
+    setBookingData({
+      check_in: "",
+      check_out: "",
+      guests: 1,
+    });
+
+  } catch (error) {
+    alert(error.response?.data?.message || "Booking Failed");
+  } finally {
+    setLoading(false);
+  }
+};
 
   if (!property) {
     return (
@@ -260,13 +302,73 @@ function PropertyDetails() {
               </div>
 
               {/* Instant Call To Actions (SaaS Layout Paradigm) */}
+              
               <div className="space-y-2.5 pt-2">
-                <a 
-                  href={`mailto:${property.owner_email}?subject=Inquiry regarding ${encodeURIComponent(property.title)}`}
-                  className="w-full inline-flex items-center justify-center bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold h-12 rounded-xl shadow-sm transition-all duration-200 active:scale-[0.99]"
-                >
-                  Book Viewing Appointment
-                </a>
+                <div className="space-y-4">
+
+  <div>
+    <label className="text-xs font-semibold text-neutral-500">
+      Check In
+    </label>
+
+    <input
+      type="date"
+      value={bookingData.check_in}
+      onChange={(e) =>
+        setBookingData({
+          ...bookingData,
+          check_in: e.target.value,
+        })
+      }
+      className="w-full mt-1 border rounded-xl p-3"
+    />
+  </div>
+
+  <div>
+    <label className="text-xs font-semibold text-neutral-500">
+      Check Out
+    </label>
+
+    <input
+      type="date"
+      value={bookingData.check_out}
+      onChange={(e) =>
+        setBookingData({
+          ...bookingData,
+          check_out: e.target.value,
+        })
+      }
+      className="w-full mt-1 border rounded-xl p-3"
+    />
+  </div>
+
+  <div>
+    <label className="text-xs font-semibold text-neutral-500">
+      Guests
+    </label>
+
+    <input
+      type="number"
+      min="1"
+      value={bookingData.guests}
+      onChange={(e) =>
+        setBookingData({
+          ...bookingData,
+          guests: e.target.value,
+        })
+      }
+      className="w-full mt-1 border rounded-xl p-3"
+    />
+  </div>
+
+</div>
+               <button
+  onClick={handleBooking}
+  disabled={loading}
+  className="w-full bg-rose-500 hover:bg-rose-600 text-white h-12 rounded-xl font-bold transition"
+>
+  {loading ? "Sending..." : "Book Now"}
+</button>
                 
                 <p className="text-[11px] text-center text-neutral-400 font-medium leading-normal px-2">
                   No immediate commitment or charges required. You will connect directly with the host to complete verification.
